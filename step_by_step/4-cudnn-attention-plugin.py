@@ -293,10 +293,10 @@ def main(args: argparse.Namespace):
             dynamic_axes={
                 'hidden_states': {1: 'img_seq_len'},
                 'encoder_hidden_states': {1: 'txt_seq_len'},
-                'img_rope_real': {1: 'img_seq_len'},
-                'img_rope_imag': {1: 'img_seq_len'},
-                'txt_rope_real': {1: 'txt_seq_len'},
-                'txt_rope_imag': {1: 'txt_seq_len'},
+                'img_rope_real': {0: 'img_seq_len'},
+                'img_rope_imag': {0: 'img_seq_len'},
+                'txt_rope_real': {0: 'txt_seq_len'},
+                'txt_rope_imag': {0: 'txt_seq_len'},
                 'out_hidden_states': {1: 'img_seq_len'},
             }
         )
