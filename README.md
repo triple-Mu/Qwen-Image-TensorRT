@@ -101,4 +101,55 @@ Advanced: Replacing sdpa with cudnn-attention, it results in a significant impro
 
 ## CONVERT TO TensorRT
 
+After convert `QwenImageTransformer2DModel` to ONNX, the tensorrt engine can be built by `trtexec`.
+
+Refer to [`2-build_engine.sh`](./scripts/2-build_engine.sh)
+
+Set up `TENSORRT_ROOT` `ONNX_PATH` and `ENGINE_PATH` first, and the min/opt/max shape also can be modified it yourself.
+
+Then run:
+
+```shell
+bash scripts/2-build_engine.sh
+```
+
+The following log output will be shown:
+
+```text
+[09/07/2025-21:42:26] [I] === Trace details ===
+[09/07/2025-21:42:26] [I] Trace averages of 10 runs:
+[09/07/2025-21:42:26] [I] Average on 10 runs - GPU latency: 1666.2 ms - Host latency: 1666.9 ms (enqueue 1663.95 ms)
+[09/07/2025-21:42:26] [I] 
+[09/07/2025-21:42:26] [I] === Performance summary ===
+[09/07/2025-21:42:26] [I] Throughput: 0.562059 qps
+[09/07/2025-21:42:26] [I] Latency: min = 1656.22 ms, max = 1674.64 ms, mean = 1666.9 ms, median = 1667.89 ms, percentile(90%) = 1673.26 ms, percentile(95%) = 1674.64 ms, percentile(99%) = 1674.64 ms
+[09/07/2025-21:42:26] [I] Enqueue Time: min = 1650.99 ms, max = 1672.49 ms, mean = 1663.95 ms, median = 1663.63 ms, percentile(90%) = 1672.08 ms, percentile(95%) = 1672.49 ms, percentile(99%) = 1672.49 ms
+[09/07/2025-21:42:26] [I] H2D Latency: min = 0.631348 ms, max = 0.640015 ms, mean = 0.635217 ms, median = 0.635742 ms, percentile(90%) = 0.63623 ms, percentile(95%) = 0.640015 ms, percentile(99%) = 0.640015 ms
+[09/07/2025-21:42:26] [I] GPU Compute Time: min = 1655.52 ms, max = 1673.94 ms, mean = 1666.2 ms, median = 1667.19 ms, percentile(90%) = 1672.56 ms, percentile(95%) = 1673.94 ms, percentile(99%) = 1673.94 ms
+[09/07/2025-21:42:26] [I] D2H Latency: min = 0.0585938 ms, max = 0.0664062 ms, mean = 0.0639648 ms, median = 0.0644531 ms, percentile(90%) = 0.0654297 ms, percentile(95%) = 0.0664062 ms, percentile(99%) = 0.0664062 ms
+[09/07/2025-21:42:26] [I] Total Host Walltime: 17.7917 s
+[09/07/2025-21:42:26] [I] Total GPU Compute Time: 16.662 s
+[09/07/2025-21:42:26] [W] * Throughput may be bound by Enqueue Time rather than GPU Compute and the GPU may be under-utilized.
+[09/07/2025-21:42:26] [W]   If not already in use, --useCudaGraph (utilize CUDA graphs where possible) may increase the throughput.
+[09/07/2025-21:42:26] [I] Explanations of the performance metrics are printed in the verbose logs.
+[09/07/2025-21:42:26] [I] 
+&&&& PASSED TensorRT.trtexec [TensorRT v101300] [b35] # trtexec --onnx=transformer_step2.onnx --saveEngine=transformer_step2.plan --bf16 --optShapes=hidden_states:1x6032x64,encoder_hidden_states:1x128x3584,timestep:1,img_rope_real:6032x64,img_rope_imag:6032x64,txt_rope_real:128x64,txt_rope_imag:128x64 --minShapes=hidden_states:1x3364x64,encoder_hidden_states:1x1x3584,timestep:1,img_rope_real:3364x64,img_rope_imag:3364x64,txt_rope_real:1x64,txt_rope_imag:1x64 --maxShapes=hidden_states:1x10816x64,encoder_hidden_states:1x1024x3584,timestep:1,img_rope_real:10816x64,img_rope_imag:10816x64,txt_rope_real:1024x64,txt_rope_imag:1024x64 --shapes=hidden_states:1x10816x64,encoder_hidden_states:1x1024x3584,timestep:1,img_rope_real:10816x64,img_rope_imag:10816x64,txt_rope_real:1024x64,txt_rope_imag:1024x64
+```
+
+## RUNNING TensorRT Pipeline!
+
+After convert ONNX to Engine, the pipeline can be built with Diffusers's pipeline.
+
+Refer to [`run_trt_pipeline.py`](./run_trt_pipeline.py)
+
+Run:
+
+```shell
+python run_trt_pipeline.py --model_path Qwen/Qwen-Image --trt_path transformer_step2.engine
+```
+
+Then the example output image will be saved at [`example.png`](./example.png).
+
+## CUDNN-ATTENTION Plugin!
+
 *COMING SOON!*
