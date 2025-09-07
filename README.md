@@ -105,7 +105,7 @@ After convert `QwenImageTransformer2DModel` to ONNX, the tensorrt engine can be 
 
 Refer to [`2-build_engine.sh`](./scripts/2-build_engine.sh)
 
-Set up `TENSORRT_ROOT` `ONNX_PATH` and `ENGINE_PATH` first, and the min/opt/max shape also can be modified it yourself.
+Set up `TENSORRT_ROOT` `ONNX_PATH` and `ENGINE_PATH` first, and the min/opt/max shape also can be modified by yourself.
 
 Then run:
 
