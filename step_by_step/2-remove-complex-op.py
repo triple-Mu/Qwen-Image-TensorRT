@@ -53,8 +53,8 @@ class OptDit(nn.Module):
             timestep: torch.Tensor,  # bf16 [batch]
             img_rope_real: torch.Tensor,  # fp32 [img_seq_len, 128//2]
             img_rope_imag: torch.Tensor,  # fp32 [img_seq_len, 128//2]
-            txt_rope_real: torch.Tensor,  # fp32 [img_seq_len, 128//2]
-            txt_rope_imag: torch.Tensor,  # fp32 [img_seq_len, 128//2]
+            txt_rope_real: torch.Tensor,  # fp32 [txt_seq_len, 128//2]
+            txt_rope_imag: torch.Tensor,  # fp32 [txt_seq_len, 128//2]
     ) -> torch.Tensor:
         hidden_states = self.dit.img_in(hidden_states)
         encoder_hidden_states = self.dit.txt_norm(encoder_hidden_states)
