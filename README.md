@@ -10,7 +10,7 @@ The project was tested in the following environment:
 - NVIDIA Driver 525.125.06
 - [`CUDA`](https://developer.download.nvidia.com/compute/cuda/11.8.0/local_installers/cuda_11.8.0_520.61.05_linux.run)
   11.8
-- Python 3.10.18
+- [`Python`](https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-py39_25.7.0-2-Linux-x86_64.sh) 3.10.18
 - [
   `PyTorch`](https://download.pytorch.org/whl/cu118/torch-2.6.0%2Bcu118-cp310-cp310-linux_x86_64.whl#sha256=715d3b039a629881f263c40d1fb65edac6786da13bfba221b353ef2371c4da86)
   2.6.0+cu118

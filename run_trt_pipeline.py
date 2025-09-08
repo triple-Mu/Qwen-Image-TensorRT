@@ -183,7 +183,7 @@ def main(args: argparse.Namespace):
         plugin_file=args.plugin_path,
     )
 
-    pipe = QwenImagePipeline.from_pretrained(
+    pipe: QwenImagePipeline = QwenImagePipeline.from_pretrained(
         args.model_path,
         torch_dtype=dtype,
         trust_remote_code=True,
