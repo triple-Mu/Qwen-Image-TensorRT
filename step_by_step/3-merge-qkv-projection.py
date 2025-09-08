@@ -168,7 +168,7 @@ def main(args: argparse.Namespace):
     dtype = torch.bfloat16
     device = torch.device('cuda:0')
 
-    transformer = QwenImageTransformer2DModel.from_pretrained(
+    transformer: QwenImageTransformer2DModel = QwenImageTransformer2DModel.from_pretrained(
         args.model_path,
         subfolder='transformer',
         torch_dtype=dtype,
@@ -223,7 +223,7 @@ def main(args: argparse.Namespace):
         device=device,
     )
 
-    transformer = OptDit(transformer)
+    transformer: OptDit = OptDit(transformer)
 
     out_hidden_states = transformer(
         hidden_states=hidden_states,
